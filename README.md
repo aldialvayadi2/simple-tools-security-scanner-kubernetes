@@ -68,7 +68,13 @@ ollama pull gpt-oss:20b
 
 ```bash
 sudo snap install --classic astral-uv
-uv install mcpo
+uv pip install mcpo
+```
+
+or you can just install the dependencies from file `extra-dependencies-client-option2.txt`
+
+```bash
+pip3 install -r extra-dependencies-client-option2.txt
 ```
 
 7. Run `mcpo` (in my case, I'm using port 8000) and also pointing it into existing `mcp client` script
@@ -97,6 +103,11 @@ curl localhost:8000/openapi.json
 
 ### MCP Client in Schme Option 2
 
+1. First, you need to already has registered account and able to use LLM services like Cursor or anything else. Here, I'm using Cursor to make it simply just by register and install it in my local.
+
+2. Add MCP Client json configuration that I already add in file "mcp-client.json" into the MCP Client configuration in each LLM services.
+
+3. Make sure that the connection between LLM service and MCP Client run well, than you already to use the MCP.
 
 ### MCP Server
 ```bash
@@ -112,3 +123,8 @@ source my-venv/bin/activate
 # Installing required Python dependencies
 pip3 install -r requirements-mcp-server.txt
 ```
+
+## Example Result
+
+NB: Here using Cursor
+![](image/api-1.png)
