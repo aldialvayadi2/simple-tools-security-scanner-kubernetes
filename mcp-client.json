@@ -1,0 +1,15 @@
+{
+    "mcpServers": {
+      "mcp-ai": {
+        "command": "py",
+        "args": [
+          "mcp-client.py",
+          "--server",
+          "http://localhost:8888"
+        ],
+        "description": "MCP AI - Used for Scanning Security on Kubernetes Cluster",
+        "timeout": 300,
+        "alwaysAllow": []
+      }
+    }
+  }

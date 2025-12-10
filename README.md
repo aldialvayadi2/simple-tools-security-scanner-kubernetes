@@ -10,6 +10,6 @@ Simple tools based on MCP architecture using Hexstrike AI as a base code.
 
 ## Component
 
-## How To Install
+## Installation
 ### MCP Client
 ### MCP Server
