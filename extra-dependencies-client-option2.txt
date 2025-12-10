@@ -1,0 +1,6 @@
+bcrypt==5.0.0
+mcpo==0.0.19
+passlib==1.7.4
+shellingham==1.5.4
+typer==0.20.0
+watchdog==6.0.0
