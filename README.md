@@ -83,7 +83,17 @@ mcpo --host 0.0.0.0 --port 8000 -- python3 mcp-client.py --server "http://<serve
 curl localhost:8000/openapi.json
 ```
 
-9. Back to the 
+9. Back to the `open-webui` and add MCP tools via "external tools" menu. Also, make sure that connection test run successfully.
+
+![](image/openwebui-1.png)
+
+10. Than, to model AI be able interact with AI MCP, we need to turn on "Stream response" and Set Function Calling to "Native"
+
+![](image/openwebui-2.png)
+
+11. Lastly, you need to enable "AI MCP" tools in the prompt and test it by giving a prompt text to do.
+
+![](image/openwebui-3.png)
 
 ### MCP Client in Schme Option 2
 
