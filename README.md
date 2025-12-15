@@ -1,5 +1,5 @@
 # Simple-Tools-Security-Scanner-Kubernetes
-Simple tools based on MCP architecture using Hexstrike AI as a base code. This PoC demonstrates a privacy-preserving Kubernetes security scanner that integrates multiple open-source security tools via an MCP Server and processes results using a locally hosted LLM or using LLM service like Cursort, Claude, etc.
+Simple tools based on MCP architecture using Hexstrike AI as a base code. This PoC demonstrates a privacy-preserving Kubernetes security scanner that integrates multiple open-source security tools via an MCP Server and processes results using a locally hosted LLM or using LLM service like Cursor, Claude, etc.
 
 ## Objectives & Success Criteria
 ### Objectives
