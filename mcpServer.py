@@ -21,75 +21,12 @@ app = FastAPI()
 async def health_check(request: Request):
     """Health check endpoint with comprehensive tool detection"""
 
-    essential_tools = [
-        "nmap", "gobuster", "dirb", "nikto", "sqlmap", "hydra", "john", "hashcat"
-    ]
-
-    network_tools = [
-        "rustscan", "masscan", "autorecon", "nbtscan", "arp-scan", "responder",
-        "nxc", "enum4linux-ng", "rpcclient", "enum4linux"
-    ]
-
-    web_security_tools = [
-        "ffuf", "feroxbuster", "dirsearch", "dotdotpwn", "xsser", "wfuzz",
-        "gau", "waybackurls", "arjun", "paramspider", "x8", "jaeles", "dalfox",
-        "httpx", "wafw00f", "burpsuite", "zaproxy", "katana", "hakrawler"
-    ]
-
-    vuln_scanning_tools = [
-        "nuclei", "wpscan", "graphql-scanner", "jwt-analyzer"
-    ]
-
-    password_tools = [
-        "medusa", "patator", "hash-identifier", "ophcrack", "hashcat-utils"
-    ]
-
-    binary_tools = [
-        "gdb", "radare2", "binwalk", "ropgadget", "checksec", "objdump",
-        "ghidra", "pwntools", "one-gadget", "ropper", "angr", "libc-database",
-        "pwninit"
-    ]
-
-    forensics_tools = [
-        "volatility3", "vol", "steghide", "hashpump", "foremost", "exiftool",
-        "strings", "xxd", "file", "photorec", "testdisk", "scalpel", "bulk-extractor",
-        "stegsolve", "zsteg", "outguess"
-    ]
-
-    cloud_tools = [
-        "prowler", "scout-suite", "trivy", "kube-hunter", "kube-bench",
-        "docker-bench-security", "checkov", "terrascan", "falco", "clair", "kubescape", "rbac-tool",
-        "cdk", "kubesec", "popeye"
-    ]
-
-    osint_tools = [
-        "amass", "subfinder", "fierce", "dnsenum", "theharvester", "sherlock",
-        "social-analyzer", "recon-ng", "maltego", "spiderfoot", "shodan-cli",
-        "censys-cli", "have-i-been-pwned"
-    ]
-
-    exploitation_tools = [
-        "metasploit", "exploit-db", "searchsploit"
-    ]
-
-    api_tools = [
-        "api-schema-analyzer", "postman", "insomnia", "curl", "httpie", "anew", "qsreplace", "uro"
-    ]
-
-    wireless_tools = [
-        "kismet", "wireshark", "tshark", "tcpdump"
-    ]
-
-    additional_tools = [
-        "smbmap", "volatility", "sleuthkit", "autopsy", "evil-winrm",
-        "paramspider", "airmon-ng", "airodump-ng", "aireplay-ng", "aircrack-ng",
-        "msfvenom", "msfconsole", "graphql-scanner", "jwt-analyzer"
-    ]
+    audit_tools = ["kube-bench", "popeye"]
+    scan_tools = [ "trivy", "kubescape", "rbac-tool", "kubesec"]
+    monitor_tools = ["falco"]
 
     all_tools = (
-        essential_tools + network_tools + web_security_tools + vuln_scanning_tools +
-        password_tools + binary_tools + forensics_tools + cloud_tools +
-        osint_tools + exploitation_tools + api_tools + wireless_tools + additional_tools
+        audit_tools + scan_tools + monitor_tools
     )
     tools_status = {}
 
@@ -100,30 +37,17 @@ async def health_check(request: Request):
         except:
             tools_status[tool] = False
 
-    all_essential_tools_available = all(tools_status[tool] for tool in essential_tools)
-
     category_stats = {
-        "essential": {"total": len(essential_tools), "available": sum(1 for tool in essential_tools if tools_status.get(tool, False))},
-        "network": {"total": len(network_tools), "available": sum(1 for tool in network_tools if tools_status.get(tool, False))},
-        "web_security": {"total": len(web_security_tools), "available": sum(1 for tool in web_security_tools if tools_status.get(tool, False))},
-        "vuln_scanning": {"total": len(vuln_scanning_tools), "available": sum(1 for tool in vuln_scanning_tools if tools_status.get(tool, False))},
-        "password": {"total": len(password_tools), "available": sum(1 for tool in password_tools if tools_status.get(tool, False))},
-        "binary": {"total": len(binary_tools), "available": sum(1 for tool in binary_tools if tools_status.get(tool, False))},
-        "forensics": {"total": len(forensics_tools), "available": sum(1 for tool in forensics_tools if tools_status.get(tool, False))},
-        "cloud": {"total": len(cloud_tools), "available": sum(1 for tool in cloud_tools if tools_status.get(tool, False))},
-        "osint": {"total": len(osint_tools), "available": sum(1 for tool in osint_tools if tools_status.get(tool, False))},
-        "exploitation": {"total": len(exploitation_tools), "available": sum(1 for tool in exploitation_tools if tools_status.get(tool, False))},
-        "api": {"total": len(api_tools), "available": sum(1 for tool in api_tools if tools_status.get(tool, False))},
-        "wireless": {"total": len(wireless_tools), "available": sum(1 for tool in wireless_tools if tools_status.get(tool, False))},
-        "additional": {"total": len(additional_tools), "available": sum(1 for tool in additional_tools if tools_status.get(tool, False))}
+        "audit": {"total": len(audit_tools), "available": sum(1 for tool in audit_tools if tools_status.get(tool, False))},
+        "scan": {"total": len(scan_tools), "available": sum(1 for tool in scan_tools if tools_status.get(tool, False))},
+        "monitor": {"total": len(monitor_tools), "available": sum(1 for tool in monitor_tools if tools_status.get(tool, False))},
     }
 
     return JSONResponse({
         "status": "healthy",
         "message": "AI Tools API Server is operational",
-        "version": "6.0.0",
+        "version": "1.0.0",
         "tools_status": tools_status,
-        "all_essential_tools_available": all_essential_tools_available,
         "total_tools_available": sum(1 for tool, available in tools_status.items() if available),
         "total_tools_count": len(all_tools),
         "category_stats": category_stats,
@@ -685,7 +609,7 @@ async def falco(request: Request):
     """Execute Falco for runtime security monitoring"""
     try:
         params = await request.json()
-        config_file = params.get("config_file", "/etc/falco/falco.yaml")
+        config_file = params.get("config_file", "")
         rules_file = params.get("rules_file", "")
         output_format = params.get("output_format", "json")
         duration = params.get("duration", 60)  # seconds
@@ -718,10 +642,10 @@ async def kubescape(request: Request):
     """Execute Kubescape for kubernetes cluster security scanning"""
     try:
         params = await request.json()
-        type = params.get("scan_type", "framework")
-        target = params.get("target", "nsa")
+        type = params.get("scan_type", "")
+        target = params.get("target", "")
         namespace = params.get("namespace", "")
-        output_format = params.get("output_format", "json")
+        output_format = params.get("output_format", "")
         additional_args = params.get("additional_args", "")
 
         command = f"kubescape"
@@ -731,7 +655,7 @@ async def kubescape(request: Request):
 
         if target:
             command += f" {target}"
-        
+                
         if namespace:
             command += f" --namespace {namespace}"
 
@@ -816,7 +740,7 @@ async def kubesec(request: Request):
     """Execute Kubesec for kubernetes security risk analysis"""
     try:
         params = await request.json()
-        manifest = params.get("manifest_path", "/home/aldi/labs/kubernetes-goat/scenarios/build-code/*")
+        manifest = params.get("manifest_path", "")
         output_format = params.get("output_format", "json")
         additional_args = params.get("additional_args", "")
 

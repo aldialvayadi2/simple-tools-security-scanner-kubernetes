@@ -299,7 +299,7 @@ def setup_mcp_server(mcp_client: MCPClient) -> FastMCP:
         return result
 
     @mcp.tool()
-    def kubescape_scan(scan_type: str = "framework", target: str = "nsa", namespace: str = "", output_format: str = "json",additional_args: str = "") -> Dict[str, Any]:
+    def kubescape_scan(scan_type: str = "framework", target: str = "", namespace: str = "", output_format: str = "json",additional_args: str = "") -> Dict[str, Any]:
         """
         Execute Kubescape for Kubernetes security assessment.
 
@@ -400,7 +400,7 @@ def setup_mcp_server(mcp_client: MCPClient) -> FastMCP:
         return result      
 
     @mcp.tool()
-    def falco_runtime_monitoring(config_file: str = "/etc/falco/falco.yaml",
+    def falco_runtime_monitoring(config_file: str = "",
                                 rules_file: str = "", output_format: str = "json",
                                 duration: int = 60, additional_args: str = "") -> Dict[str, Any]:
         """
@@ -737,7 +737,7 @@ def setup_mcp_server(mcp_client: MCPClient) -> FastMCP:
             }
 
     # ============================================================================
-    # ADVANCED VULNERABILITY INTELLIGENCE MCP TOOLS (v6.0 ENHANCEMENT)
+    # ADVANCED VULNERABILITY INTELLIGENCE MCP TOOLS (v1.0 ENHANCEMENT)
     # ============================================================================
 
     @mcp.tool()
@@ -1102,7 +1102,7 @@ def main():
         logger.debug("🔍 Debug logging enabled")
 
     # MCP compatibility: No banner output to avoid JSON parsing issues
-    logger.info(f"🚀 Starting AI MCP Client v6.0")
+    logger.info(f"🚀 Starting AI MCP Client v1.0")
     logger.info(f"🔗 Connecting to: {args.server}")
 
     try:
@@ -1118,16 +1118,14 @@ def main():
             logger.info(f"🎯 Successfully connected to AI API server at {args.server}")
             logger.info(f"🏥 Server health status: {health['status']}")
             logger.info(f"📊 Version: {health.get('version', 'unknown')}")
-            if not health.get("all_essential_tools_available", False):
-                logger.warning("⚠️  Not all essential tools are available on the server")
-                missing_tools = [tool for tool, available in health.get("tools_status", {}).items() if not available]
-                if missing_tools:
-                    logger.warning(f"❌ Missing tools: {', '.join(missing_tools[:5])}{'...' if len(missing_tools) > 5 else ''}")
+            missing_tools = [tool for tool, available in health.get("tools_status", {}).items() if not available]
+            if missing_tools:
+                logger.warning(f"❌ Missing tools: {', '.join(missing_tools[:15])}{'...' if len(missing_tools) > 15 else ''}")
 
         # Set up and run the MCP server
         mcp = setup_mcp_server(mcp_client)
         logger.info("🚀 Starting AI MCP server")
-        logger.info("🤖 Ready to serve AI agents with enhanced cybersecurity capabilities")
+        logger.info("🤖 Ready to serve AI agents with security capabilities")
         mcp.run()
     except Exception as e:
         logger.error(f"💥 Error starting MCP server: {str(e)}")
