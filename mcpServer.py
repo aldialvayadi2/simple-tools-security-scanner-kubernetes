@@ -95,7 +95,7 @@ async def cache_stats():
     return JSONResponse(cache.get_stats())
 
 @app.route("/api/cache/clear", methods=["POST"])
-async def clear_cache():
+async def clear_cache(request: Request):
     """Clear the cache"""
     cache.cache.clear()
     cache.stats = {"hits": 0, "misses": 0, "evictions": 0}
