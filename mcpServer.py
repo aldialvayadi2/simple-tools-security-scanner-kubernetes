@@ -710,14 +710,14 @@ async def rbac_tool(request: Request):
     """Execute RBAC-Tool for kubernetes RBAC security scanning"""
     try:
         params = await request.json()
-        manifest = params.get("manifest_path", "")
+        command = params.get("command", "")
         output_format = params.get("output_format", "json")
         additional_args = params.get("additional_args", "")
 
-        command = f"rbac-tool analysis"
+        command = f"rbac-tool"
 
-        if manifest:
-            command += f" --config {manifest}"
+        if command:
+            command += f" {command}"
 
         if output_format:
             command += f" --output {output_format}"

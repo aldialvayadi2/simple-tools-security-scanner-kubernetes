@@ -432,13 +432,13 @@ def setup_mcp_server(mcp_client: MCPClient) -> FastMCP:
         return result
     
     @mcp.tool()
-    def rbac_tool_analyze(manifest_path: str = "",
+    def rbac_tool_analyze(command: str = "",
                         output_format: str = "json", additional_args: str = "") -> Dict[str, Any]:
         """
         Analyze Kubernetes RBAC permissions using rbac-tool.
 
         Args:
-            manifest_path: Path to the RBAC YAML file.
+            command: Command for rbac-tool to do (analysis, lookup, show, etc).
             output_format: Output format (json, yaml, text).
             additional_args: Additional RBAC Tools Arguments.
             
@@ -446,11 +446,11 @@ def setup_mcp_server(mcp_client: MCPClient) -> FastMCP:
             RBAC analysis result containing roles, bindings, and privilege risks.
         """
         data = {
-            "manifest_path": manifest_path,
+            "command": command,
             "output_format": output_format,
             "additional_args": additional_args
         }
-        logger.info(f"🔐 Running RBAC-Tool analysis on {manifest_path}")
+        logger.info(f"🔐 Running RBAC-Tool analysis on {command}")
         result = mcp_client.safe_post("api/tools/scan/rbac-tool", data)
 
         if result.get("success"):
