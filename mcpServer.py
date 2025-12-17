@@ -90,7 +90,7 @@ async def list_files(request: Request):
 
 # Cache Management Endpoint
 @app.route("/api/cache/stats", methods=["GET"])
-async def cache_stats():
+async def cache_stats(request: Request):
     """Get cache statistics"""
     return JSONResponse(cache.get_stats())
 
@@ -113,7 +113,7 @@ async def get_telemetry():
 # ============================================================================
 
 @app.route("/api/processes/list", methods=["GET"])
-async def list_processes():
+async def list_processes(request: Request):
     """List all active processes"""
     try:
         processes = ProcessManager.list_active_processes()
@@ -236,7 +236,7 @@ async def resume_process(pid):
         return JSONResponse({"error": f"Server error: {str(e)}"}), 500
 
 @app.route("/api/processes/dashboard", methods=["GET"])
-async def process_dashboard():
+async def process_dashboard(request: Request):
     """Get enhanced process dashboard with visual status using ModernVisualEngine"""
     try:
         processes = ProcessManager.list_active_processes()
